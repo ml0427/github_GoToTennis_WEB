@@ -12,7 +12,7 @@
 <%@page import="uuu.gtt.entity.CartItem"%>
 
 <%
-        Customer member = (Customer) session.getAttribute("member");//載入登入者資料
+	Customer member = (Customer) session.getAttribute("member");//載入登入者資料
 
         Object objCart = session.getAttribute("cart"); //讀取session內購物車資料
         Cart cart = null;//建立空的購物車

@@ -11,7 +11,7 @@
 <%@page import="uuu.gtt.entity.CartItem"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-        Customer member = (Customer) session.getAttribute("member");
+	Customer member = (Customer) session.getAttribute("member");
 
         Object objCart = session.getAttribute("cart");
         Cart cart = null;
@@ -19,7 +19,6 @@
                 cart = (Cart) objCart;
                 cart.setMember(member);
         }
-
 %>
 <!DOCTYPE html>
 <html>

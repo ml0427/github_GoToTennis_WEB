@@ -6,7 +6,7 @@
 <%@page import="uuu.gtt.entity.Cart"%>
 <%@page import="uuu.gtt.entity.Customer"%>
 <%
-            Customer member = (Customer) session.getAttribute("member");
+	Customer member = (Customer) session.getAttribute("member");
 
             Object objCart = session.getAttribute("cart");
             Cart cart = null;
@@ -15,7 +15,6 @@
                         cart.setMember(member);
                         
             }
-
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
