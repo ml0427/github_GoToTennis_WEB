@@ -22,23 +22,25 @@ import uuu.gtt.service.OrderService;
  */
 @WebServlet(name = "NotifyServlet", urlPatterns = { "/member/notify.do" })
 public class NotifyServlet extends HttpServlet {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-	 * methods.
+	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
 	 *
-	 * @param request  servlet request
-	 * @param response servlet response
-	 * @throws ServletException if a servlet-specific error occurs
-	 * @throws IOException      if an I/O error occurs
+	 * @param request
+	 *            servlet request
+	 * @param response
+	 *            servlet response
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs
+	 * @throws IOException
+	 *             if an I/O error occurs
 	 */
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<String> errors = new ArrayList<>();
 
-		// 取得表單中的資料
+		// 1. 取得表單中的資料
 		String id = request.getParameter("orderId");
 		String bank = request.getParameter("bank");
 		String account = request.getParameter("account");
@@ -70,14 +72,13 @@ public class NotifyServlet extends HttpServlet {
 			errors.add("必須輸入轉帳時間");
 		}
 
-		// 檢查無誤
+		// 2. 檢查無誤
 		if (errors.isEmpty()) {
 			OrderService service = new OrderService();
 			try {
-				service.updateOrderStatusToNotify(Integer.parseInt(id), bank, account, Double.parseDouble(amount),
-						transferDate, transferTime);
+				service.updateOrderStatusToNotify(Integer.parseInt(id), bank, account, Double.parseDouble(amount), transferDate, transferTime);
 
-				// redirect to orders_history.jsp
+				// 3.1 redirect to orders_history.jsp
 				response.sendRedirect(request.getContextPath() + "/member/orders_history.jsp");
 			} catch (VGBException ex) {
 				this.log("通知已轉帳失敗", ex);
@@ -88,22 +89,45 @@ public class NotifyServlet extends HttpServlet {
 			}
 		}
 
-		// forward to notify.jsp
+		// 3.2 forward to notify.jsp
 		request.setAttribute("errors", errors);
-		System.out.println(errors);
+		// request.setAttribute("errors", errors);
+		// request.setRequestDispatcher("notify.jsp").forward(request, response);
 	}
 
+	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+	/**
+	 * Handles the HTTP <code>GET</code> method.
+	 *
+	 * @param request
+	 *            servlet request
+	 * @param response
+	 *            servlet response
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 */
+
+	// @Override
+	// protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	// throws ServletException, IOException {
+	// processRequest(request, response);
+	// }
 	/**
 	 * Handles the HTTP <code>POST</code> method.
 	 *
-	 * @param request  servlet request
-	 * @param response servlet response
-	 * @throws ServletException if a servlet-specific error occurs
-	 * @throws IOException      if an I/O error occurs
+	 * @param request
+	 *            servlet request
+	 * @param response
+	 *            servlet response
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs
+	 * @throws IOException
+	 *             if an I/O error occurs
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
@@ -115,6 +139,6 @@ public class NotifyServlet extends HttpServlet {
 	@Override
 	public String getServletInfo() {
 		return "Short description";
-	} // </editor-fold>
+	}// </editor-fold>
 
 }

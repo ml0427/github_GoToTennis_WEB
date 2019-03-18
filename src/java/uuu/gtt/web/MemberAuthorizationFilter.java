@@ -23,20 +23,23 @@ import uuu.gtt.entity.Customer;
  *
  * @author Administrator
  */
-@WebFilter(filterName = "MemberAuthorizationFilter", urlPatterns = { "/member/*" }, initParams = {
-		@WebInitParam(name = "name", value = "member") })
+@WebFilter(filterName = "MemberAuthorizationFilter", urlPatterns = { "/member/*" }, initParams = { @WebInitParam(name = "name", value = "member") })
 public class MemberAuthorizationFilter implements Filter {
+
+	private FilterConfig filterConfig;
+	private String memberAttribute = "member";
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
+		this.filterConfig = filterConfig;
 		String name = filterConfig.getInitParameter("name");
 		if (name != null) {
+			this.memberAttribute = name;
 		}
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// 前置處理
 		HttpSession session = ((HttpServletRequest) request).getSession();
 		Object objMember = session.getAttribute("member");
@@ -44,20 +47,21 @@ public class MemberAuthorizationFilter implements Filter {
 		if (objMember instanceof Customer) {
 			member = (Customer) objMember;
 		}
-
-		if (member == null) { // 若尚未登入，就外部轉交給login.jsp
+		
+		if (member == null) {// 若尚未登入，就外部轉交給login.jsp
 			session.setAttribute("previous.uri", ((HttpServletRequest) request).getRequestURI());
-			((HttpServletResponse) response)
-					.sendRedirect(((HttpServletRequest) request).getContextPath() + "/login.jsp");
+			((HttpServletResponse) response).sendRedirect(((HttpServletRequest) request).getContextPath() + "/login.jsp");
 			return;
 		}
 
 		chain.doFilter(request, response);
+
 		// 後置處理
 	}
 
 	@Override
 	public void destroy() {
+
 	}
 
 }

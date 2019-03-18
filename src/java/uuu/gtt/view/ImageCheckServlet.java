@@ -46,8 +46,8 @@ public class ImageCheckServlet extends HttpServlet {
 	private BufferedImage generateImage(String rand, int width, int height) {
 		// 開始建立圖片
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		// 取得影像繪圖區
-		Graphics g = image.getGraphics();
+
+		Graphics g = image.getGraphics(); // 取得影像繪圖區
 
 		// 畫出背景方塊
 		g.setColor(getRandomColor(200, 250)); // 設定繪圖區背景色
@@ -100,29 +100,28 @@ public class ImageCheckServlet extends HttpServlet {
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String rand = "";
-		// 執行商業邏輯: 用Random產生len碼的大寫英數字字串0~9, 10~35->A~Z
+		// 2.執行商業邏輯: 用Random產生len碼的大寫英數字字串0~9, 10~35->A~Z
 		Random random = new Random();
 		for (int i = 0; i < len; i++) {
 			int data = random.nextInt(35);
 			char c = (char) (data < 10 ? data + '0' : data - 10 + 'A');
 			rand += c;
 		}
-		// System.out.println("rand = " + rand);
+		System.out.println("rand = " + rand);
 		// 把rand字串寫到session，給LoginServlet檢查時使用
 		request.getSession().setAttribute("captcha", rand);
 
 		// 將rand字串繪製成圖
 		BufferedImage image = this.generateImage(rand, width, height);
 
-		// 將image輸出至http response
+		// 3. 將image輸出至http response
 		response.setContentType("image/jpeg");
 		try (OutputStream out = response.getOutputStream()) {
 			ImageIO.write(image, "JPEG", out);
 		}
 	}
 
-	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
-	// + sign on the left to edit the code.">
+	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**
 	 * Handles the HTTP <code>GET</code> method.
 	 *
@@ -165,6 +164,6 @@ public class ImageCheckServlet extends HttpServlet {
 	@Override
 	public String getServletInfo() {
 		return "Short description";
-	} // </editor-fold>
+	}// </editor-fold>
 
 }

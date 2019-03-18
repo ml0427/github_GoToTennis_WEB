@@ -26,8 +26,7 @@ public class UpdateCartServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Object objCart = session.getAttribute("cart");
 		Cart cart = null;
@@ -38,17 +37,16 @@ public class UpdateCartServlet extends HttpServlet {
 			Set<CartItem> trashCan = new HashSet<>();
 			for (CartItem item : cart.getCartItemSet()) {
 				// 1.讀取request中的Form Data
-				String quantity = request
-						.getParameter("quantity" + item.getProduct().getId()/* +"_"+item.getColor() */);
+				String quantity = request.getParameter("quantity" + item.getProduct().getId()/* +"_"+item.getColor() */);
 				String delete = request.getParameter("delete" + item.getProduct().getId()/* +"_"+item.getColor() */);
 				System.out.println("quantity = " + quantity);
 				System.out.println("delete = " + delete);
 
-				// 執行商業邏輯
+				// 2.執行商業邏輯
 				if (delete != null) {
 					// 直接從cart移除item
-					// cart.remove(item.getProduct(),item.getColor()); //移除[非最後一筆]時會發生:
-					// ConcurrentModificationException
+					// cart.remove(item.getProduct(),item.getColor()); //移除[非最後一筆]時會發生: ConcurrentModificationException
+
 					// 改成:將待移除的item暫放至trashCan
 					trashCan.add(item);
 				} else if (quantity != null && quantity.matches("\\d+")) {
@@ -63,7 +61,7 @@ public class UpdateCartServlet extends HttpServlet {
 		}
 
 		String submit = request.getParameter("submit");
-		// redirect到購物車
+		// 3. redirect到購物車
 		if ("我要結帳".equals(submit)) {
 			response.sendRedirect(request.getContextPath() + "/member/check_out.jsp");
 		} else {
@@ -71,33 +69,38 @@ public class UpdateCartServlet extends HttpServlet {
 		}
 	}
 
-	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
-	// + sign on the left to edit the code.">
+	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**
 	 * Handles the HTTP <code>GET</code> method.
 	 *
-	 * @param request  servlet request
-	 * @param response servlet response
-	 * @throws ServletException if a servlet-specific error occurs
-	 * @throws IOException      if an I/O error occurs
+	 * @param request
+	 *            servlet request
+	 * @param response
+	 *            servlet response
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs
+	 * @throws IOException
+	 *             if an I/O error occurs
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
 	/**
 	 * Handles the HTTP <code>POST</code> method.
 	 *
-	 * @param request  servlet request
-	 * @param response servlet response
-	 * @throws ServletException if a servlet-specific error occurs
-	 * @throws IOException      if an I/O error occurs
+	 * @param request
+	 *            servlet request
+	 * @param response
+	 *            servlet response
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs
+	 * @throws IOException
+	 *             if an I/O error occurs
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
@@ -109,6 +112,6 @@ public class UpdateCartServlet extends HttpServlet {
 	@Override
 	public String getServletInfo() {
 		return "Short description";
-	} // </editor-fold>
+	}// </editor-fold>
 
 }

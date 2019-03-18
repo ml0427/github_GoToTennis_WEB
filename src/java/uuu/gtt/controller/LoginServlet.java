@@ -29,21 +29,39 @@ public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		System.out.println(request.getAttributeNames());
-		System.out.println(request.getRemoteAddr());
-		System.out.println(request.getQueryString());
 
+	static {
+		System.out.println("LoginServlet is loaded!");
+	}
+
+	public LoginServlet() {
+		System.out.println("LoginServlet is created!");
+	}
+
+	/**
+	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+	 *
+	 * @param request
+	 *            servlet request
+	 * @param response
+	 *            servlet response
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 */
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		List<String> errors = new ArrayList<>();
 
+		List<String> errors = new ArrayList<>();
+		// 1.讀取request中的Form Data: email, password, TODO: 並檢查
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String captcha = request.getParameter("captcha");
 		String remember = request.getParameter("remember");
 
+		System.out.println("email=" + email);
 		if (email == null || email.length() == 0) {
 			errors.add("必須輸入帳號");
 		}
@@ -64,21 +82,21 @@ public class LoginServlet extends HttpServlet {
 			}
 		}
 
+		// 2. 當檢查無誤，呼叫商業邏輯:CustomerSerivce的login方法
 		if (errors.isEmpty()) {
 			CustomerService service = new CustomerService();
 			try {
-				Customer c = service.login(email, password); // 抓帳號密碼並登入
+				Customer c = service.login(email, password);// 抓帳號密碼並登入
 
 				// 以下time-out控制程式請小心慎用
-				// session.setMaxInactiveInterval(10);
-				// 10秒後time-out
+				// session.setMaxInactiveInterval(10); //10秒後time-out
 				// cookie的程式
 				Cookie emailcookie = new Cookie("email", c.getEmail());
 				Cookie remeberCookie = new Cookie("remember", "checked");
 				int age = 0;
 
 				if (remember != null) {
-					age = 7 * 24 * 60 * 60; // 紀錄七天時間(秒)
+					age = 7 * 24 * 60 * 60;// 紀錄七天時間(秒)
 				}
 				emailcookie.setMaxAge(age);
 				remeberCookie.setMaxAge(age);
@@ -86,8 +104,12 @@ public class LoginServlet extends HttpServlet {
 				response.addCookie(remeberCookie);
 
 				// cookie結束
-				// 本來是forword到首頁，改成sendRedirect到首頁
+				// 3.1 本來是forword到首頁，改成sendRedirect到首頁
 				session.setAttribute("member", c);
+				// RequestDispatcher dispatcher = request.getRequestDispatcher("/");
+				// dispatcher.forward(request, response);
+
+				// response.sendRedirect(request.getContextPath());
 
 				String uri = (String) session.getAttribute("previous.uri");
 				if (uri != null) {
@@ -107,20 +129,56 @@ public class LoginServlet extends HttpServlet {
 			}
 		}
 
-		// forword到login.jsp
+		// TODO: 3.2 forword到login.jsp
 		request.setAttribute("errors", errors);
 		RequestDispatcher displatcher = request.getRequestDispatcher("/login.jsp");
 		displatcher.forward(request, response);
 	}
 
+	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+	/**
+	 * Handles the HTTP <code>GET</code> method.
+	 *
+	 * @param request
+	 *            servlet request
+	 * @param response
+	 *            servlet response
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 */
+
+	// @Override
+	// protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	// throws ServletException, IOException {
+	// processRequest(request, response);
+	// }
+	/**
+	 * Handles the HTTP <code>POST</code> method.
+	 *
+	 * @param request
+	 *            servlet request
+	 * @param response
+	 *            servlet response
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
+	/**
+	 * Returns a short description of the servlet.
+	 *
+	 * @return a String containing servlet description
+	 */
 	@Override
 	public String getServletInfo() {
 		return "Short description";
-	}
+	}// </editor-fold>
 
 }

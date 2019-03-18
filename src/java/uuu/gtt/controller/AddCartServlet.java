@@ -28,15 +28,25 @@ public class AddCartServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		// 讀取request的parameter
+	/**
+	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+	 *
+	 * @param request
+	 *            servlet request
+	 * @param response
+	 *            servlet response
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 */
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 1.讀取request的parameter
 		String productId = request.getParameter("productId");
 		String quantity = request.getParameter("quantity");
 
 		if (productId != null && productId.matches("\\d+")) {
-			// 呼叫商業邏輯
+			// 2.呼叫商業邏輯
 			int pid = Integer.parseInt(productId);
 			ProductService service = new ProductService();
 
@@ -65,37 +75,42 @@ public class AddCartServlet extends HttpServlet {
 			}
 		}
 
-		// redirect到購物車
+		// 3.redirect到購物車
 		response.sendRedirect(request.getContextPath() + "/member/cart.jsp");
 	}
 
-	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
-	// + sign on the left to edit the code.">
+	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**
 	 * Handles the HTTP <code>GET</code> method.
 	 *
-	 * @param request  servlet request
-	 * @param response servlet response
-	 * @throws ServletException if a servlet-specific error occurs
-	 * @throws IOException      if an I/O error occurs
+	 * @param request
+	 *            servlet request
+	 * @param response
+	 *            servlet response
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs
+	 * @throws IOException
+	 *             if an I/O error occurs
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
 	/**
 	 * Handles the HTTP <code>POST</code> method.
 	 *
-	 * @param request  servlet request
-	 * @param response servlet response
-	 * @throws ServletException if a servlet-specific error occurs
-	 * @throws IOException      if an I/O error occurs
+	 * @param request
+	 *            servlet request
+	 * @param response
+	 *            servlet response
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs
+	 * @throws IOException
+	 *             if an I/O error occurs
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
@@ -107,6 +122,6 @@ public class AddCartServlet extends HttpServlet {
 	@Override
 	public String getServletInfo() {
 		return "Short description";
-	} // </editor-fold>
+	}// </editor-fold>
 
 }

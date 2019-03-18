@@ -6,15 +6,17 @@
 package uuu.gtt.controller;
 
 import java.io.IOException;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import uuu.gtt.entity.Customer;
 import uuu.gtt.entity.VGBException;
 import uuu.gtt.service.CustomerService;
@@ -30,10 +32,11 @@ public class UpdateServlet extends HttpServlet {
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		// HttpSession session = request.getSession();
 		List<String> errors = new ArrayList<>();
 		request.setCharacterEncoding("UTF-8");
-		// 取得request中的form data: id, name, password1, password2, gender, email,
-		// birthday, phone, address, married, bloodType, 並檢查之
+		// 1. 取得request中的form data: id, name, password1, password2, gender, email, birthday,
+		// phone, address, married, bloodType, 並檢查之
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");
 		String password1 = request.getParameter("password1");
@@ -43,6 +46,8 @@ public class UpdateServlet extends HttpServlet {
 		String birthday = request.getParameter("birthday");
 		String phone = request.getParameter("phone");
 		String address = request.getParameter("address");
+
+		// String remember = request.getParameter("remember");
 
 		if (id == null || id.length() == 0) {
 			errors.add("必須輸入帳號");
@@ -67,8 +72,7 @@ public class UpdateServlet extends HttpServlet {
 			errors.add("必須輸入生日");
 		}
 
-		// 若無誤，則建立Customer object，並將form data指派給對應的屬性，才呼叫CustomerService
-		// register(Customer object)
+		// 2. 若無誤，則建立Customer object，並將form data指派給對應的屬性，才呼叫CustomerService register(Customer object)
 		if (errors.isEmpty()) {
 			try {
 				Customer c = new Customer();
@@ -77,20 +81,25 @@ public class UpdateServlet extends HttpServlet {
 				c.setGender(gender.charAt(0));
 				c.setPassword(password1);
 				c.setEmail(email);
-				c.setBirthday(LocalDate.parse(birthday));
+				c.setBirthday(birthday);
 				c.setPhone(phone);
 				c.setAddress(address);
+				// c.setMarried(married != null);
+				// if (bloodType != null && bloodType.length() > 0) {
+				// BloodType bType = BloodType.valueOf(bloodType);
+				// c.setBloodType(bType);
+				// }
 
 				CustomerService service = new CustomerService();
 				service.update(c);//
 
-				// 若成功則forward to register_ok.jsp
-
+				// 3.1若成功則forward to register_ok.jsp
 				request.setAttribute("customer", c);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/member/update_ok.jsp");
 				dispatcher.forward(request, response);
 
 				return;
+
 			} catch (VGBException ex) {
 				this.log("修改失敗", ex);
 				errors.add(ex.getMessage());
@@ -100,14 +109,14 @@ public class UpdateServlet extends HttpServlet {
 			}
 		}
 
-		// 若失敗則輸出forward to register.jsp
+		// 3.2 若失敗則輸出forward to register.jsp
 		request.setAttribute("errors", errors);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("register.jsp");
 		dispatcher.forward(request, response);
+
 	}
 
-	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
-	// + sign on the left to edit the code.">
+	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**
 	 * Handles the HTTP <code>GET</code> method.
 	 *
@@ -150,6 +159,6 @@ public class UpdateServlet extends HttpServlet {
 	@Override
 	public String getServletInfo() {
 		return "Short description";
-	} // </editor-fold>
+	}// </editor-fold>
 
 }

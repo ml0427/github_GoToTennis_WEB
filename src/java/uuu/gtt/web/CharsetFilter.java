@@ -6,6 +6,7 @@
 package uuu.gtt.web;
 
 import java.io.IOException;
+
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -20,9 +21,7 @@ import javax.servlet.annotation.WebInitParam;
  *
  * @author USER
  */
-@WebFilter(filterName = "CharsetFilter", urlPatterns = { "*.do", "*.jsp" }, initParams = {
-		@WebInitParam(name = "charset", value = "UTF-8") }, dispatcherTypes = { DispatcherType.REQUEST,
-				DispatcherType.ERROR })
+@WebFilter(filterName = "CharsetFilter", urlPatterns = { "*.do", "*.jsp" }, initParams = { @WebInitParam(name = "charset", value = "UTF-8") }, dispatcherTypes = { DispatcherType.REQUEST, DispatcherType.ERROR })
 public class CharsetFilter implements Filter {
 
 	private FilterConfig filterConfig;
@@ -35,19 +34,21 @@ public class CharsetFilter implements Filter {
 		if (charst != null) {
 			this.charst = charst;
 		}
+
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// 前置處理。鎖定編碼
+
 		request.setCharacterEncoding(charst);
-		request.getParameterNames(); // 鎖定request的編碼
+		request.getParameterNames();// 鎖定request的編碼
 
 		response.setCharacterEncoding(charst);
-		response.getWriter(); // 鎖定response的編碼
+		response.getWriter();// 鎖定response的編碼
 
-		chain.doFilter(request, response); // 交棒程式... 不太懂
+		chain.doFilter(request, response);// 交棒程式... 不太懂
+
 		// 後續處理
 	}
 
