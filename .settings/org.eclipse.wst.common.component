@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="GoToTennis_WEB">
+    <wb-module deploy-name="github_GoToTennis_WEB">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/" source-path="/src/java"/>
-        <property name="context-root" value="GoToTennis_WEB"/>
-        <property name="java-output-path" value="/GoToTennis_WEB/bin"/>
+        <property name="java-output-path" value="/github_GoToTennis_WEB/bin"/>
+        <property name="context-root" value="github_GoToTennis_WEB"/>
     </wb-module>
 </project-modules>
