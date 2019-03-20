@@ -27,7 +27,7 @@
 %>
 <%  //2. 呼叫商業邏輯
         ProductService service = new ProductService();
-        List<Product> list = service.selectProductByName_Category(name, category); //"" 將會查詢到全部的產品
+        List<Product> list = service.selectProductByNameAndCategory(name, category); //"" 將會查詢到全部的產品
 
         //使用者選擇的頁數，如果沒有選擇就是第一頁
         int user_page = 0;

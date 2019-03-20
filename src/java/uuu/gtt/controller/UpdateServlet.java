@@ -6,7 +6,7 @@
 package uuu.gtt.controller;
 
 import java.io.IOException;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +81,7 @@ public class UpdateServlet extends HttpServlet {
 				c.setGender(gender.charAt(0));
 				c.setPassword(password1);
 				c.setEmail(email);
-				c.setBirthday(birthday);
+				c.setBirthday(LocalDate.parse(birthday));
 				c.setPhone(phone);
 				c.setAddress(address);
 				// c.setMarried(married != null);
