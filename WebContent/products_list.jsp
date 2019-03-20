@@ -66,14 +66,9 @@
 	<jsp:include page="/WEB-INF/subviews/picture/small_menu.jsp">
 		<jsp:param name="theSubtitle" value="<a class=\" small_menu_a\" href=\"/gtt\">首頁</a>>產品清單   " />
                         <jsp:param name="h2_theSubtitle" value="產品清單" /></jsp:include>
-
 	<!--網頁第4層：產品搜尋-->
 	<jsp:include page="/WEB-INF/subviews/picture/product_select_2.jsp" />
-
-
 	<!--網頁最尾層：footer -->
 	<jsp:include page="/WEB-INF/subviews/picture/footer.jsp" />
-
-
 </body>
 </html>
