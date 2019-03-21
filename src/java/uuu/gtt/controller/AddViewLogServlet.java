@@ -18,8 +18,15 @@ public class AddViewLogServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	/**
+	 * processRequest
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 讀取請求中的資料，並檢查之
 		Customer member = (Customer) request.getSession().getAttribute("member");
 		String id = request.getParameter("productId");
@@ -35,10 +42,10 @@ public class AddViewLogServlet extends HttpServlet {
 				p.setId(Integer.parseInt(id));
 				viewlog.setProduct(p);
 				service.insert(viewlog);
-				
+
 				// redirect to viewlog.jsp
 				response.sendRedirect("viewlog.jsp");
-				
+
 				return;
 			} catch (VGBException ex) {
 				this.log("建立觀看紀錄失敗", ex);
@@ -47,20 +54,18 @@ public class AddViewLogServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
 	@Override
 	public String getServletInfo() {
 		return "Short description";
-	} // </editor-fold>
+	}
 
 }
