@@ -50,12 +50,10 @@
 		if (search == null) {
 			search = "";
 		}
-	%>
-	<%
 		//2. 呼叫商業邏輯
 		ProductService service = new ProductService();
 		List<Product> list = new ArrayList<>(); //建立空集合
-		List<Product> list2 = service.findProductByName(search);//"" 將會查詢到全部的產品
+		List<Product> list2 = service.selectProductByName(search);//"" 將會查詢到全部的產品
 		for (Product p : list2) {
 			if (p.getPrice() <= p.getUnitPrice() / 2) {
 				list.add(p);
@@ -259,11 +257,8 @@
 							if (list.get(starting_range).getPrice() <= list.get(starting_range).getUnitPrice() / 2) {
 								System.out.println("售價=" + list.get(starting_range).getPrice() + "\n定價/2=" + list.get(starting_range).getUnitPrice() / 2);
 				%>
-				<li>
-					<a href="product.jsp?productId=<%=list.get(starting_range).getId()%>" class="hover">
-						<img src="<%=list.get(starting_range).getPhotoUrl()%>">
-						<img src="<%=list.get(starting_range).getPhotoUrl2()%>">
-					</a>
+				<li><a href="product.jsp?productId=<%=list.get(starting_range).getId()%>" class="hover"> <img src="<%=list.get(starting_range).getPhotoUrl()%>"> <img src="<%=list.get(starting_range).getPhotoUrl2()%>">
+				</a>
 					<h5 style="padding: 234px 0 0 0;"><%=list.get(starting_range).getName()%></h5>
 					<div>
 						<samp style="text-decoration: line-through;">
@@ -274,8 +269,7 @@
 						<!--售價-->
 
 
-					</div>
-				</li>
+					</div></li>
 				<%
 					}
 						}
@@ -434,12 +428,7 @@
 		<%
 			}
 		%>
-
-
-
 		<!--</div>-->
-
-
 	</div>
 
 

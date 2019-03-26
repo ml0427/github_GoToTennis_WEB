@@ -29,36 +29,37 @@
                 <!--網頁最尾層：footer_css -->
                 <jsp:include page="/WEB-INF/subviews/picture/footer_css.jsp" />
                 <style>
-                        .article{
-                                background: white;
-                                text-align: center;
-                        }
-                        .article input{
-                                border: none;
-                                background-color: #f4f4f4;
-                                width: 460px;
-                                height: 40px;
-                        }
-                        .article p{
+.article {
+	background: white;
+	text-align: center;
+}
 
-                                padding:40px  0 0 0;
-                        }
-                        .article p label{
-                                text-align: left;
-                                width: 100px;
-                                display:inline-block;
-                        }
+.article input {
+	border: none;
+	background-color: #f4f4f4;
+	width: 460px;
+	height: 40px;
+}
 
+.article p {
+	padding: 40px 0 0 0;
+}
 
-                        #ok_input{
-                                background-color: #666666;
-                                color: white;
-                                width: 60px;
-                                height: 35px;
-                                text-align: center;
-                                margin:  40px 0 40px 0;
-                        }
-                </style>
+.article p label {
+	text-align: left;
+	width: 100px;
+	display: inline-block;
+}
+
+#ok_input {
+	background-color: #666666;
+	color: white;
+	width: 60px;
+	height: 35px;
+	text-align: center;
+	margin: 40px 0 40px 0;
+}
+</style>
         </head>
         <body>
 
@@ -80,7 +81,7 @@
                                                         Order order = null;
                                                         if (orderId != null && orderId.matches("\\d+")) {
                                                                 OrderService service = new OrderService();
-                                                                order = service.findOrderById(Integer.parseInt(orderId));
+                                                                order = service.selectOrderById(Integer.parseInt(orderId));
 
                                                         }
                 %>

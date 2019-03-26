@@ -36,7 +36,6 @@ public class AddCartServlet extends HttpServlet {
 			// 2.呼叫商業邏輯
 			int pid = Integer.parseInt(productId);
 			ProductService service = new ProductService();
-
 			try {
 				Product p = service.findProductById(pid);
 				if (p != null) {

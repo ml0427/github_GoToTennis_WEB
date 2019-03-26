@@ -1,9 +1,3 @@
-<%-- 
-    Document   : order
-    Created on : 2018/6/8, 上午 11:24:25
-    Author     : Administrator
---%>
-
 <%@page import="uuu.gtt.service.OrderService"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="uuu.gtt.entity.OrderItem"%>
@@ -24,9 +18,12 @@
 <jsp:include page="/WEB-INF/subviews/picture/logo_css.jsp" />
 <!--網頁第2-2層的 menu_css-->
 <jsp:include page="/WEB-INF/subviews/picture/menu_css.jsp" />
-
-
-
+<script>
+    function goorder() {
+    	location.href = "<%=request.getContextPath()%>
+	/member/orders_history.jsp";
+	}
+</script>
 <!--網頁最尾層：footer_css -->
 <jsp:include page="/WEB-INF/subviews/picture/footer_css.jsp" />
 
@@ -57,14 +54,8 @@
 	text-align: center;
 }
 </style>
-<script>
-                        function goorder() {
-                                location.href = "<%=request.getContextPath()%>
-	/member/orders_history.jsp";
-	}
-</script>
-
 </head>
+
 <body>
 	<!--第一層中的登入登出-->
 	<jsp:include page="/WEB-INF/subviews/picture/nav.jsp" />
@@ -77,25 +68,16 @@
 		String orderId = request.getParameter("orderId");
 		Order order = null;
 
-		//                        List<Order> list = null;
-		//                        if (member != null) {
-		//                                OrderService service = new OrderService();
-		//                                list = service.findOrdersByCustomerEmail(member.getEmail());
-		//                        }
 		List<OrderItem> list2 = null;
 
 		if (orderId != null && orderId.matches("\\d+")) {
 			OrderService service = new OrderService();
-			order = service.findOrderById(Integer.parseInt(orderId));
+			order = service.selectOrderById(Integer.parseInt(orderId));
 			list2 = order.getOrderItemSet();
 		}
 	%>
-
-
-
 	<div class="article">
 		<div class="article_2">
-
 			<%
 				if (order != null && member.equals(order.getMember())) {
 			%>
@@ -113,8 +95,7 @@
 					<%=order.getShippingType()%><br>
 
 				</div>
-				<div
-					style="line-height: 40px; height: 40px; background: #eee; margin: 20px 0;">收件人資訊</div>
+				<div style="line-height: 40px; height: 40px; background: #eee; margin: 20px 0;">收件人資訊</div>
 				<div>
 					姓名:<%=order.getRecipientName()%><hr>
 				</div>
@@ -128,15 +109,8 @@
 					地址:<%=order.getRecipientAddr()%><hr>
 				</div>
 			</div>
-
 			<div></div>
-
-
-
 			<div>
-
-
-
 				<table style='width: 90%; margin: auto;'>
 					<caption style="margin: 20px 0;">訂單內容</caption>
 					<thead>
@@ -150,7 +124,6 @@
 							<th>數量</th>
 						</tr>
 					</thead>
-
 					<tbody>
 						<%
 							int a = 0;
@@ -169,9 +142,7 @@
 								</div>
 							</td>
 							<!--圖片-->
-							<td style="width: 10%;"><img
-								style='width: 75px; vertical-align: middle'
-								src='<%=orderItem.getProduct().getPhotoUrl()%>'></td>
+							<td style="width: 10%;"><img style='width: 75px; vertical-align: middle' src='<%=orderItem.getProduct().getPhotoUrl()%>'></td>
 							<!--名稱-->
 							<td style="width: 40%;"><%=orderItem.getProduct().getName()%></td>
 							<!--售價-->
@@ -181,9 +152,7 @@
 						</tr>
 						<%
 							}
-						%>
-						<%
-							} else {
+								} else {
 						%>
 						<p>
 							查無訂單編號<%=orderId%>內的商品!
@@ -198,48 +167,50 @@
 							<td colspan="2" style='background-color: #eee; width: 300px;'><%=quantity%>件商品</td>
 						</tr>
 						<tr>
-							<td colspan="5"><hr style="margin: 0;"></td>
+							<td colspan="5">
+								<hr style="margin: 0;">
+							</td>
 						</tr>
 
 						<tr>
 							<td colspan="3">運費</td>
-							<td colspan="2" style='background-color: #eee;'><span
-								id="feeSpan"><%=Math.round(order.getShippingFee())%></span>元</td>
+							<td colspan="2" style='background-color: #eee;'><span id="feeSpan"><%=Math.round(order.getShippingFee())%></span> 元</td>
 
 						</tr>
 						<tr>
-							<td colspan="5"><hr style="margin: 0;"></td>
+							<td colspan="5">
+								<hr style="margin: 0;">
+							</td>
 						</tr>
-
-
 						<tr>
 							<td colspan="3">總金額</td>
-							<td colspan="2" style='background-color: #eee;'><span
-								id="allfeeSpan"><%=Math.round(all_price + order.getShippingFee())%></span>元</td>
+							<td colspan="2" style='background-color: #eee;'><span id="allfeeSpan"><%=Math.round(all_price + order.getShippingFee())%></span> 元</td>
 						</tr>
 						<tr>
-							<td colspan="5"><hr style="margin: 0;"></td>
+							<td colspan="5">
+								<hr style="margin: 0;">
+							</td>
 						</tr>
 						<tr>
-							<td colspan="5"><div>
+							<td colspan="5">
+								<div>
 									<br>
-								</div></td>
+								</div>
+							</td>
 						</tr>
 						<tr>
-
 							<td colspan="3"></td>
-							<td colspan="2"><input class="again_input" type='button'
-								value='回歷史清單' onclick='goorder()'></td>
+							<td colspan="2"><input class="again_input" type='button' value='回歷史清單' onclick='goorder()'></td>
 						</tr>
 						<tr>
-							<td colspan="5"><div>
+							<td colspan="5">
+								<div>
 									<br>
-								</div></td>
+								</div>
+							</td>
 						</tr>
-
 					</tbody>
 				</table>
-
 				<%
 					} else {
 				%>
@@ -253,7 +224,6 @@
 			</div>
 		</div>
 	</div>
-
 	<!--網頁最尾層：產品搜尋footer -->
 	<jsp:include page="/WEB-INF/subviews/picture/footer.jsp" />
 </body>

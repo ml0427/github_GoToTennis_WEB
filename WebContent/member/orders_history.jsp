@@ -78,7 +78,7 @@
                                                         List<Order> list = null;
                                                         if (member != null) {
                                                                 OrderService service = new OrderService();
-                                                                list = service.findOrdersByCustomerEmail(member.getEmail());
+                                                                list = service.selectOrdersByEmail(member.getEmail());
                                                         }
                 %>
                 <div class="article">            
