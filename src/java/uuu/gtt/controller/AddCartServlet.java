@@ -26,39 +26,42 @@ public class AddCartServlet extends HttpServlet {
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
+	 * @throws VGBException
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		// 1.讀取request的parameter
 		String productId = request.getParameter("productId");
-		String quantity = request.getParameter("quantity");
+		String quantityStr = request.getParameter("quantity");
+		try {
+			if (productId != null && productId.matches("\\d+")) {
+				// 2.呼叫商業邏輯
+				int id = Integer.parseInt(productId);
+				ProductService service = new ProductService();
 
-		if (productId != null && productId.matches("\\d+")) {
-			// 2.呼叫商業邏輯
-			int pid = Integer.parseInt(productId);
-			ProductService service = new ProductService();
-			try {
-				Product p = service.findProductById(pid);
-				if (p != null) {
-					int q = 1;
-					if (quantity != null && quantity.matches("\\d+")) {
-						q = Integer.parseInt(quantity);
+				Product product = service.selectProductById(id);
+				if (product != null) {
+					int quantity = 1;
+					if (quantityStr != null && quantityStr.matches("\\d+")) {
+						quantity = Integer.parseInt(quantityStr);
 					}
 
 					HttpSession session = request.getSession();
 					Object obj = session.getAttribute("cart");
-					Cart cart = null;
+					Cart cart;
 					if (obj instanceof Cart) {
 						cart = (Cart) obj;
 					} else {
 						cart = new Cart();
 						session.setAttribute("cart", cart);
 					}
-
-					cart.add(p, q);
+					cart.add(product, quantity);
 				}
-			} catch (VGBException ex) {
-				this.log("加入購物車失敗!", ex);
+			}else {
+				this.log("加入購物車失敗-productId");
 			}
+		} catch (VGBException ex) {
+			this.log("加入購物車失敗!", ex);
 		}
 
 		// 3.redirect到購物車
@@ -77,7 +80,7 @@ public class AddCartServlet extends HttpServlet {
 
 	@Override
 	public String getServletInfo() {
-		return "Short description";
+		return "AddCartServlet";
 	}
 
 }

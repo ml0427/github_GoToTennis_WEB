@@ -31,6 +31,7 @@ public class RegisterServlet extends HttpServlet {
 	 * @throws IOException
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
 		HttpSession session = request.getSession();
 		List<String> errors = new ArrayList<>();
 		request.setCharacterEncoding("UTF-8");
@@ -45,9 +46,7 @@ public class RegisterServlet extends HttpServlet {
 		String birthday = request.getParameter("birthday");
 		String phone = request.getParameter("phone");
 		String address = request.getParameter("address");
-
-		// String remember = request.getParameter("remember");
-
+		
 		if (id == null || id.length() == 0) {
 			errors.add("必須輸入帳號");
 		}
@@ -56,7 +55,6 @@ public class RegisterServlet extends HttpServlet {
 			errors.add("必須輸入姓名");
 		}
 
-		// 密碼檢查
 		if (!(password1 != null && password1.length() > 0 && password2 != null && password2.length() > 0 && password1.equals(password2))) {
 			errors.add("必須輸入一致的密碼與確認密碼");
 		}
@@ -64,9 +62,11 @@ public class RegisterServlet extends HttpServlet {
 		if (gender == null || gender.charAt(0) != Customer.MALE && gender.charAt(0) != Customer.FEMALE) {
 			errors.add("必須輸入正確的性別");
 		}
+		
 		if (email == null || email.length() == 0) {
 			errors.add("必須輸入Email");
 		}
+		
 		if (birthday == null || birthday.length() == 0) {
 			errors.add("必須輸入生日");
 		}
