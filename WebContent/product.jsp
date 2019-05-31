@@ -72,7 +72,7 @@
 	if (productId != null && productId.matches("\\d+")) {
 		int id = Integer.parseInt(productId);
 		ProductService service = new ProductService();
-		p = service.findProductById(id); //findProductByName("").get(0);
+		p = service.selectProductById(id); //findProductByName("").get(0);
 	}
 	if (p != null) {
 %>
@@ -133,11 +133,12 @@
 				</div>
 				<hr>
 				<%=p.getDescription()%><!--產品介紹 -->
-				<br> <br>
+				<br>
+				<br>
 				<hr>
 				<div style="">
-					庫存量<input style="border: none; font-size: 20px; width: 30px;"
-						id="getStock" value="<%=p.getStock()%>" readonly>
+					庫存量
+					<input style="border: none; font-size: 20px; width: 30px;" id="getStock" value="<%=p.getStock()%>" readonly>
 				</div>
 				<hr>
 				<%
@@ -148,8 +149,7 @@
 					<input type='hidden' name='productId' value="<%=p.getId()%>">
 					<!--數量-->
 					<div id="xx">-</div>
-					<input id="yy" name="quantity" type="text" min="1"
-						max="<%=p.getStock()%>" value="1" required>
+					<input id="yy" name="quantity" type="text" min="1" max="<%=p.getStock()%>" value="1" required>
 					<div id="zz">+</div>
 					<input id="add_card" class="add_card" type="submit" value="加入購物車">
 				</form>

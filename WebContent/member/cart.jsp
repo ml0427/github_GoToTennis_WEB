@@ -170,7 +170,7 @@
                                                                                                                                                         if (productId != null && productId.matches("\\d+")) {
                                                                                                                                                                 int id = Integer.parseInt(productId);
                                                                                                                                                                 ProductService service = new ProductService();
-                                                                                                                                                                p = service.findProductById(id); //findProductByName("").get(0);
+                                                                                                                                                                p = service.selectProductById(id); //findProductByName("").get(0);
                                                                                                                                                         }
                                                                                                                                                         a = a + 1;
                                                 %>
